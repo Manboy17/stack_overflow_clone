@@ -18,7 +18,7 @@ const Navbar = () => {
         />
 
         <p className="h2-bold light:text-dark-100 font-spaceGrotesk dark:text-light-900 max-sm:hidden">
-          Stack <span className="text-primary-500">Overflow</span>
+          Stack<span className="text-primary-500">Overflow</span>
         </p>
       </Link>
 
