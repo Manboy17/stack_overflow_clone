@@ -46,6 +46,7 @@ const Theme = () => {
         <MenubarContent
           className="
             dark:border-dark-400dark:bg-dark-300 
+            background-light900_dark200
             absolute
             right-[-3rem]
             mt-3
