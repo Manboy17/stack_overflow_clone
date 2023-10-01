@@ -67,6 +67,7 @@ const RightSidebar = () => {
         flex
         h-screen
         flex-col
+        overflow-y-auto
         p-6
         pt-36
         shadow-light-300
