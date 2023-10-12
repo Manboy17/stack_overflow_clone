@@ -2,14 +2,14 @@ import Link from "next/link";
 import React from "react";
 import Tag from "./navbar/Tag";
 import Metric from "./Metric";
-import { formatLargeNumber, getTimestamp } from "@/lib/utils";
+import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
 
 interface QuestionProps {
   _id: string;
   title: string;
   tags: {
     _id: string;
-    label: string;
+    name: string;
   }[];
   author: {
     _id: string;
@@ -32,6 +32,7 @@ const QuestionCard: React.FC<QuestionProps> = ({
   views,
   createdAt,
 }) => {
+  console.log(tags);
   return (
     <div className="card-wrapper rounded-[11px] p-9 sm:p-11">
       <div
@@ -63,7 +64,7 @@ const QuestionCard: React.FC<QuestionProps> = ({
 
         <div className="flex gap-2">
           {tags.map((item) => (
-            <Tag key={item._id} _id={item._id} name={item.label} />
+            <Tag key={item._id} _id={item._id} name={item.name} />
           ))}
         </div>
 
@@ -80,21 +81,21 @@ const QuestionCard: React.FC<QuestionProps> = ({
           <Metric
             imgUrl="/assets/icons/like.svg"
             alt="votes"
-            value={formatLargeNumber(votes)}
+            value={votes}
             title=" Votes"
             textStyles="small-medium text-dark400_light800"
           />
           <Metric
             imgUrl="/assets/icons/message.svg"
             alt="message"
-            value={formatLargeNumber(answers.length)}
+            value={formatAndDivideNumber(answers.length)}
             title=" Answers"
             textStyles="small-medium text-dark400_light800"
           />
           <Metric
             imgUrl="/assets/icons/eye.svg"
             alt="eye"
-            value={formatLargeNumber(views)}
+            value={formatAndDivideNumber(views)}
             title=" Views"
             textStyles="small-medium text-dark400_light800"
           />

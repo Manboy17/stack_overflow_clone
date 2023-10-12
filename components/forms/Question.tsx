@@ -20,12 +20,19 @@ import { QuestionsSchema } from "@/lib/validations";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
 import { createQuestion } from "@/lib/actions/question.action";
+import { usePathname, useRouter } from "next/navigation";
+
+interface Props {
+  mongoUserId: string;
+}
 
 const type: any = "edit";
 
-const Question = () => {
+const Question = ({ mongoUserId }: Props) => {
   const editorRef = useRef(null);
   const [isFormatting, setIsFormatting] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const form = useForm<z.infer<typeof QuestionsSchema>>({
     resolver: zodResolver(QuestionsSchema),
@@ -41,8 +48,15 @@ const Question = () => {
 
     try {
       // make an api call here
-      await createQuestion({});
-      // bavigate to home page after calling api
+      await createQuestion({
+        title: values.title,
+        explanation: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId),
+        path: pathname,
+      });
+      // navigate to home page after calling an api
+      router.push("/");
     } catch (error) {
     } finally {
       setIsFormatting(false);
@@ -187,34 +201,34 @@ const Question = () => {
               <FormControl>
                 <>
                   <Input
+                    disabled={type === "Edit"}
+                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
                     placeholder="Add tags..."
-                    className="
-                    no-focus
-                    paragraph-regular
-                    background-light900_dark300
-                    light-border-2
-                    text-dark300_light700
-                    min-h-[56px]
-                    border
-                "
                     onKeyDown={(e) => handleInputKeyDown(e, field)}
                   />
+
                   {field.value.length > 0 && (
                     <div className="flex-start mt-2.5 gap-2.5">
-                      {field.value.map((tag: any, index: number) => (
+                      {field.value.map((tag: any) => (
                         <Badge
-                          key={index}
+                          key={tag}
                           className="subtle-medium background-light800_dark300 text-light400_light500 flex items-center justify-center gap-2 rounded-md border-none px-4 py-2 capitalize"
-                          onClick={() => handleRemoveTag(tag, field)}
+                          onClick={() =>
+                            type !== "Edit"
+                              ? handleRemoveTag(tag, field)
+                              : () => {}
+                          }
                         >
                           {tag}
-                          <Image
-                            src="/assets/icons/close.svg"
-                            alt="close icon"
-                            className="cursor-pointer object-contain invert-0 dark:invert"
-                            width={12}
-                            height={12}
-                          />
+                          {type !== "Edit" && (
+                            <Image
+                              src="/assets/icons/close.svg"
+                              alt="Close icon"
+                              width={12}
+                              height={12}
+                              className="cursor-pointer object-contain invert-0 dark:invert"
+                            />
+                          )}
                         </Badge>
                       ))}
                     </div>
@@ -233,6 +247,7 @@ const Question = () => {
         <Button
           type="submit"
           className="primary-gradient w-fit !text-light-900"
+          disabled={isFormatting}
         >
           {isFormatting ? (
             <>{type === "edit" ? "Editing..." : "Posting"}</>
