@@ -32,7 +32,6 @@ const QuestionCard: React.FC<QuestionProps> = ({
   views,
   createdAt,
 }) => {
-  console.log(tags);
   return (
     <div className="card-wrapper rounded-[11px] p-9 sm:p-11">
       <div
