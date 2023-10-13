@@ -16,6 +16,24 @@ export interface CreateQuestionParams {
   path: string;
 }
 
+export interface CreateUserParams {
+  id: string;
+  name: string;
+  username: string;
+  email: string;
+  picture: string;
+}
+
+export interface UpdateUserParams {
+  id: string;
+  updateData: Partial<IUser>;
+  path: string;
+}
+
+export interface DeleteUserParams {
+  id: string;
+}
+
 // --------------------
 
 // export interface CreateAnswerParams {
