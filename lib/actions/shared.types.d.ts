@@ -16,6 +16,10 @@ export interface CreateQuestionParams {
   path: string;
 }
 
+export interface GetUserByIdParams {
+  userId: string;
+}
+
 export interface CreateUserParams {
   id: string;
   name: string;
