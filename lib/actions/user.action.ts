@@ -3,7 +3,7 @@ import { connectToDatabase } from "../mongoose";
 import {
   CreateUserParams,
   DeleteUserParams,
-  GetAllUsers,
+  GetAllUsersParams,
   GetUserByIdParams,
   UpdateUserParams,
 } from "./shared.types";
@@ -81,7 +81,7 @@ export async function daleteUser(params: DeleteUserParams) {
   }
 }
 
-export async function getAllUsers(params: GetAllUsers) {
+export async function getAllUsers(params: GetAllUsersParams) {
   try {
     await connectToDatabase();
 
