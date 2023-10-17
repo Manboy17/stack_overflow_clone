@@ -38,6 +38,18 @@ export interface DeleteUserParams {
   id: string;
 }
 
+export interface GetAllUsers {
+  page?: number;
+  pageSize?: number;
+  filter?: string;
+  searchQuery?: string;
+}
+
+export interface GetTopTagsByUser {
+  userId: string;
+  limit?: number;
+}
+
 // --------------------
 
 // export interface CreateAnswerParams {
