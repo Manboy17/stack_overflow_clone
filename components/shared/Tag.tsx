@@ -16,10 +16,7 @@ const Tag: React.FC<TagProps> = ({
   showTotalQuestions,
 }) => {
   return (
-    <Link
-      href={`/tags/${_id}`}
-      className="flex w-full items-center justify-between"
-    >
+    <Link href={`/tags/${_id}`} className="flex items-center justify-between">
       <Badge className="subtle-medium background-light800_dark300 text-light400_light500 rounded-md border-none px-4 py-2 uppercase">
         {name}
       </Badge>

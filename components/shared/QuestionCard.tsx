@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import Tag from "./navbar/Tag";
+import Tag from "./Tag";
 import Metric from "./Metric";
 import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
 

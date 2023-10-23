@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import Tag from "./Tag";
+import Tag from "../Tag";
 
 const topQuestions = [
   {

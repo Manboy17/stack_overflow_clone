@@ -2,7 +2,7 @@ import { getTopTagsByUser } from "@/lib/actions/tag.action";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import Tag from "./navbar/Tag";
+import Tag from "./Tag";
 import { Badge } from "../ui/badge";
 
 interface Props {

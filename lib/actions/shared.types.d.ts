@@ -1,3 +1,4 @@
+import { IQuestion } from "@/database/question.model";
 import { IUser } from "@/database/user.model";
 import { Schema } from "mongoose";
 
@@ -55,6 +56,21 @@ export interface getAllTagsParams {
   pageSize?: number;
   filter?: string;
   searchQuery?: string;
+}
+
+export interface getQuestionByIdParams {
+  questionId: string;
+}
+
+export interface CreateAnswerParams {
+  content: string;
+  author: Schema.Types.ObjectId | IUser;
+  question: Schema.Types.ObjectId | IQuestion;
+  path: string;
+}
+
+export interface GetAllAnswersParams {
+  questionId: string;
 }
 
 // --------------------

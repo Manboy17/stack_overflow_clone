@@ -15,7 +15,7 @@ interface FilterProps {
     name: string;
     value: string;
   }[];
-  otherClasses: string;
+  otherClasses?: string;
   containerClasses?: string;
 }
 

@@ -7,3 +7,7 @@ export const QuestionsSchema = z.object({
 });
 // eslint-disable-next-line no-redeclare
 // export type QuestionsSchema = z.infer<typeof QuestionsSchema>;
+
+export const AnswerSchema = z.object({
+  answer: z.string().min(100),
+});
