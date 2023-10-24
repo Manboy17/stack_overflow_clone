@@ -73,6 +73,28 @@ export interface GetAllAnswersParams {
   questionId: string;
 }
 
+export interface VoteQuestionParams {
+  userId: string;
+  questionId: string;
+  isUpvoted: boolean;
+  isDownvoted: boolean;
+  path: string;
+}
+
+export interface VoteAnswerParams {
+  userId: string;
+  answerId: string;
+  isUpvoted: boolean;
+  isDownvoted: boolean;
+  path: string;
+}
+
+export interface ToggleSaveQuestionParams {
+  userId: string;
+  questionId: string;
+  path: string;
+}
+
 // --------------------
 
 // export interface CreateAnswerParams {

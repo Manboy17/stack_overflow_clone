@@ -3,6 +3,7 @@ import AllAnswers from "@/components/shared/AllAnswers";
 import Metric from "@/components/shared/Metric";
 import ParsedHTML from "@/components/shared/ParsedHTML";
 import Tag from "@/components/shared/Tag";
+import Votes from "@/components/shared/Votes";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
 import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
@@ -41,7 +42,18 @@ const QuestionDetails = async ({ params, searchParams }: any) => {
               {question.author.name}
             </p>
           </Link>
-          <div className="flex justify-end">VOTING</div>
+          <div className="flex justify-end">
+            <Votes
+              type="Question"
+              itemId={JSON.stringify(question.id)}
+              userId={JSON.stringify(mongoUser._id)}
+              upvotes={question.upvotes.length}
+              downvotes={question.downvotes.length}
+              isUpvoted={question.upvotes.includes(mongoUser._id)}
+              isDownvoted={question.downvotes.includes(mongoUser._id)}
+              isSaved={mongoUser?.saved.includes(question._id)}
+            />
+          </div>
         </div>
         <h2 className="h2-semibold text-dark200_light900 mt-3.5 w-full text-left">
           {question.title}

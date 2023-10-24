@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getTimestamp } from "@/lib/utils";
 import ParsedHTML from "./ParsedHTML";
+import Votes from "./Votes";
 
 interface Props {
   questionId: string;
@@ -53,7 +54,17 @@ const AllAnswers: React.FC<Props> = async ({
                   </div>
                 </Link>
 
-                <div className="flex justify-end">VOTING</div>
+                <div className="flex justify-end">
+                  <Votes
+                    type="Answer"
+                    itemId={JSON.stringify(answer._id)}
+                    userId={JSON.stringify(userId)}
+                    upvotes={answer.upvotes.length}
+                    downvotes={answer.downvotes.length}
+                    isUpvoted={answer.upvotes.includes(userId)}
+                    isDownvoted={answer.downvotes.includes(userId)}
+                  />
+                </div>
               </div>
             </div>
 
