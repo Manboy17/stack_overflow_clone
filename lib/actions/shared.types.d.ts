@@ -95,6 +95,14 @@ export interface ToggleSaveQuestionParams {
   path: string;
 }
 
+export interface GetSavedQuestionsParams {
+  id: string;
+  searchQuery?: string;
+  page?: number;
+  pageSize?: number;
+  filter?: string;
+}
+
 // --------------------
 
 // export interface CreateAnswerParams {

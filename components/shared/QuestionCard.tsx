@@ -16,7 +16,7 @@ interface QuestionProps {
     name: string;
     picture: string;
   };
-  votes: number;
+  votes: string[];
   answers: Array<object>;
   views: number;
   createdAt: Date;
@@ -80,7 +80,7 @@ const QuestionCard: React.FC<QuestionProps> = ({
           <Metric
             imgUrl="/assets/icons/like.svg"
             alt="votes"
-            value={votes}
+            value={formatAndDivideNumber(votes.length)}
             title=" Votes"
             textStyles="small-medium text-dark400_light800"
           />
