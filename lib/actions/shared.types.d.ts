@@ -108,6 +108,39 @@ export interface ViewQuestionParams {
   userId: string | undefined;
 }
 
+export interface GetQuestionsByTagIdParams {
+  tagId: string;
+  page?: number;
+  pageSize?: number;
+  searchQuery?: string;
+}
+
+export interface GetUserInfoParams {
+  userId: string;
+}
+
+export interface GetUserQuestionsParams {
+  userId: string;
+  page?: number;
+  pageSize?: number;
+}
+
+export interface GetUserAnswersParams {
+  userId: string;
+  page?: number;
+  pageSize?: number;
+}
+
+export interface DeleteQuestionParams {
+  itemId: string;
+  path: string;
+}
+
+export interface DeleteAnswerParams {
+  itemId: string;
+  path: string;
+}
+
 // --------------------
 
 // export interface CreateAnswerParams {

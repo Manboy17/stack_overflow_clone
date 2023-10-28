@@ -61,3 +61,23 @@ export const formatLargeNumber = (number: number): string => {
     return number.toString();
   }
 };
+
+export function getJoinedDateFormatted(date: Date | string): string {
+  if (date instanceof Date) {
+    const month = date.toLocaleString("default", { month: "long" });
+    const year = date.getFullYear();
+    const formattedDate = `${month} ${year}`;
+    return formattedDate;
+  } else {
+    const parsedDate = new Date(date);
+
+    if (!isNaN(parsedDate.getTime())) {
+      const month = parsedDate.toLocaleString("default", { month: "long" });
+      const year = parsedDate.getFullYear();
+      const formattedDate = `${month} ${year}`;
+      return formattedDate;
+    } else {
+      return "Invalid Date";
+    }
+  }
+}

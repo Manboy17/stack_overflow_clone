@@ -1,34 +1,28 @@
-import Filter from "@/components/Filter";
 import NotFound from "@/components/shared/NotFound";
 import QuestionCard from "@/components/shared/QuestionCard";
 import LocalSearch from "@/components/shared/search/LocalSearch";
-import { QuestionFilters } from "@/constants/filters";
-import { getSavedQuestion } from "@/lib/actions/user.action";
-import { auth } from "@clerk/nextjs";
+import { getQuestionsByTagId } from "@/lib/actions/tag.action";
+import { URLProps } from "@/types";
 import React from "react";
 
-const Collection = async () => {
-  const { userId } = auth();
-
-  if (!userId) return null;
-
-  const result = await getSavedQuestion({ id: userId });
+const TagQuestions = async ({ params, searchParams }: URLProps) => {
+  const result = await getQuestionsByTagId({
+    tagId: params.id,
+    page: 1,
+    searchQuery: searchParams.q,
+  });
 
   return (
     <div>
-      <h1 className="h1-bold text-dark100_light900">Saved Questions</h1>
+      <h1 className="h1-bold text-dark100_light900">{result.tagTitle}</h1>
 
-      <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
+      <div className="mt-11">
         <LocalSearch
-          route="/collection"
+          route="/"
           iconPosition="left"
           iconUrl="/assets/icons/search.svg"
           otherClasses="flex-1"
-          placeholder="Search amazing minds here..."
-        />
-        <Filter
-          filters={QuestionFilters}
-          otherClasses="min-h-[56px] sm:min-w-[170px]"
+          placeholder="Search tag questions..."
         />
       </div>
 
@@ -49,7 +43,7 @@ const Collection = async () => {
           ))
         ) : (
           <NotFound
-            title="There’s no saved question to show"
+            title="There’s tag question to show"
             href="/"
             btnText="Ask a Question"
             desc="Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion. our query could be the next big thing others learn from. Get involved! 💡"
@@ -60,4 +54,4 @@ const Collection = async () => {
   );
 };
 
-export default Collection;
+export default TagQuestions;

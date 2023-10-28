@@ -59,12 +59,14 @@ export default async function Home() {
         ) : (
           <NotFound
             title="There’s no question to show"
-            href="/"
+            href="/ask-question"
             btnText="Ask a Question"
             desc="Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion. our query could be the next big thing others learn from. Get involved! 💡"
           />
         )}
       </div>
+
+      <div className="mt-10">{/* <Pagination /> */}</div>
     </>
   );
 }
