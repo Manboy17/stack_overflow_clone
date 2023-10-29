@@ -7,6 +7,7 @@ import {
   CreateQuestionParams,
   DeleteAnswerParams,
   DeleteQuestionParams,
+  EditQuestionParams,
   GetQuestionsParams,
   VoteQuestionParams,
   getQuestionByIdParams,
@@ -204,6 +205,30 @@ export async function deleteAnswer(params: DeleteAnswerParams) {
       { $pull: { answers: itemId } }
     );
     await Interaction.deleteMany({ answer: itemId });
+
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function editQuestion(params: EditQuestionParams) {
+  try {
+    await connectToDatabase();
+
+    const { questionId, title, explanation, path } = params;
+
+    const question = await Question.findById(questionId).populate("tags");
+
+    if (!question) {
+      throw new Error("Question not found");
+    }
+
+    question.title = title;
+    question.explanation = explanation;
+
+    await question.save();
 
     revalidatePath(path);
   } catch (error) {

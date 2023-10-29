@@ -141,6 +141,13 @@ export interface DeleteAnswerParams {
   path: string;
 }
 
+export interface EditQuestionParams {
+  questionId: string;
+  title: string;
+  explanation: string;
+  path: string;
+}
+
 // --------------------
 
 // export interface CreateAnswerParams {

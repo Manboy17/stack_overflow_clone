@@ -2,7 +2,7 @@
 
 import { deleteAnswer, deleteQuestion } from "@/lib/actions/question.action";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 interface Props {
@@ -12,7 +12,10 @@ interface Props {
 
 const EditDeleteAction = ({ type, id }: Props) => {
   const pathname = usePathname();
-  const handleEdit = (id: string) => {};
+  const router = useRouter();
+  const handleEdit = (id: string) => {
+    router.push(`/question/edit/${id}`);
+  };
 
   const handleDelete = async (id: string) => {
     if (type === "Question") {

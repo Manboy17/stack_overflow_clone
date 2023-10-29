@@ -19,17 +19,21 @@ import { Input } from "../ui/input";
 import { QuestionsSchema } from "@/lib/validations";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
-import { createQuestion } from "@/lib/actions/question.action";
+import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "@/context/ThemeProvider";
 
 interface Props {
+  type?: string;
+  questionDetails?: string;
   mongoUserId: string;
 }
 
-const type: any = "edit";
+const Question = ({ mongoUserId, type, questionDetails }: Props) => {
+  const parsedQuestionDetails = questionDetails && JSON.parse(questionDetails);
 
-const Question = ({ mongoUserId }: Props) => {
+  const parsedTags = parsedQuestionDetails?.tags.map((tag: any) => tag.name);
+
   const { mode } = useTheme();
   const editorRef = useRef(null);
   const [isFormatting, setIsFormatting] = useState(false);
@@ -39,9 +43,9 @@ const Question = ({ mongoUserId }: Props) => {
   const form = useForm<z.infer<typeof QuestionsSchema>>({
     resolver: zodResolver(QuestionsSchema),
     defaultValues: {
-      title: "",
-      explanation: "",
-      tags: [],
+      title: parsedQuestionDetails?.title || "",
+      explanation: parsedQuestionDetails?.explanation || "",
+      tags: parsedTags || [],
     },
   });
 
@@ -49,16 +53,26 @@ const Question = ({ mongoUserId }: Props) => {
     setIsFormatting(true);
 
     try {
-      // make an api call here
-      await createQuestion({
-        title: values.title,
-        explanation: values.explanation,
-        tags: values.tags,
-        author: JSON.parse(mongoUserId),
-        path: pathname,
-      });
-      // navigate to home page after calling an api
-      router.push("/");
+      if (type === "Edit") {
+        await editQuestion({
+          questionId: parsedQuestionDetails?._id,
+          title: values.title,
+          explanation: values.explanation,
+          path: pathname,
+        });
+        router.push(`/question/${parsedQuestionDetails?._id}`);
+      } else {
+        // make an api call here
+        await createQuestion({
+          title: values.title,
+          explanation: values.explanation,
+          tags: values.tags,
+          author: JSON.parse(mongoUserId),
+          path: pathname,
+        });
+        // navigate to home page after calling an api
+        router.push("/");
+      }
     } catch (error) {
     } finally {
       setIsFormatting(false);
@@ -154,7 +168,7 @@ const Question = ({ mongoUserId }: Props) => {
                   }}
                   onBlur={field.onBlur}
                   onEditorChange={(content) => field.onChange(content)}
-                  initialValue=""
+                  initialValue={parsedQuestionDetails?.explanation || ""}
                   init={{
                     height: 350,
                     menubar: false,
@@ -254,9 +268,11 @@ const Question = ({ mongoUserId }: Props) => {
           disabled={isFormatting}
         >
           {isFormatting ? (
-            <>{type === "edit" ? "Editing..." : "Posting"}</>
+            <>{type === "Edit" ? "Editing..." : "Posting"}</>
           ) : (
-            <>{type === "edit" ? "Edit Question" : "Ask a Question"}</>
+            <>
+              {type === "Create" ? "Creating a Question" : "Create a Question"}
+            </>
           )}
         </Button>
       </form>
