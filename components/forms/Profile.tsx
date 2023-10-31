@@ -18,25 +18,26 @@ import { useState } from "react";
 import { ProfileSchema } from "@/lib/validations";
 import { usePathname, useRouter } from "next/navigation";
 import { updateUser } from "@/lib/actions/user.action";
+import { IUser } from "@/database/user.model";
 
 interface Props {
   id: string;
-  user: string;
+  user?: IUser;
 }
 
 const Profile = ({ id, user }: Props) => {
-  const parsedUser = JSON.parse(user);
+  const parsedUser = user;
   const pathname = usePathname();
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm<z.infer<typeof ProfileSchema>>({
     resolver: zodResolver(ProfileSchema),
     defaultValues: {
-      name: parsedUser.name || "",
-      username: parsedUser.username || "",
-      portfolioLink: parsedUser.portfolioLink || "",
-      userLocation: parsedUser.userLocation || "",
-      bio: parsedUser.bio || "",
+      name: parsedUser?.name || "",
+      username: parsedUser?.username || "",
+      portfolioLink: parsedUser?.portfolioLink || "",
+      userLocation: parsedUser?.userLocation || "",
+      bio: parsedUser?.bio || "",
     },
   });
 

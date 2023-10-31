@@ -2,7 +2,8 @@
 
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 interface LocalSearchProps {
   route: string;
@@ -19,6 +20,15 @@ const LocalSearch: React.FC<LocalSearchProps> = ({
   otherClasses,
   placeholder,
 }) => {
+  const [search, setSearch] = useState("");
+  const router = useRouter();
+
+  // to-do: use effect debounce and pass formUrlQuery function imported from utils
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
   return (
     <div className="relative w-full">
       <div
@@ -45,8 +55,8 @@ const LocalSearch: React.FC<LocalSearchProps> = ({
         )}
         <Input
           type="text"
-          value=""
-          onChange={() => {}}
+          value={search}
+          onChange={handleInputChange}
           placeholder={placeholder}
           className="
             paragraph-regular 

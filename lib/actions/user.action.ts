@@ -118,7 +118,7 @@ export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
       throw new Error("User not found");
     }
 
-    const isQuestionSaved = user.saved.includes(questionId);
+    const isQuestionSaved = user.saved.includes(questionId as any);
 
     if (isQuestionSaved) {
       await User.findByIdAndUpdate(

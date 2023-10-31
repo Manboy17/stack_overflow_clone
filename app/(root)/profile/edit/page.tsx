@@ -8,13 +8,13 @@ const ProfileEdit = async () => {
 
   if (!userId) return null;
 
-  const user = await getUserById({ userId });
+  const user = (await getUserById({ userId }))?.toObject();
   return (
     <div>
       <h1 className="h1-bold text-dark100_light900">Edit Profile</h1>
 
       <div className="mt-11 flex w-full flex-col gap-10">
-        <Profile id={userId} user={JSON.stringify(user)} />
+        <Profile id={userId} user={user} />
       </div>
     </div>
   );

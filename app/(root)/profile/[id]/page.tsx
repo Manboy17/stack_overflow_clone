@@ -20,13 +20,15 @@ const Profile = async ({ params, searchParams }: URLProps) => {
     <>
       <div className="flex flex-col-reverse items-center justify-between sm:flex-row">
         <div className="flex flex-col items-start gap-4 lg:flex-row">
-          <Image
-            src={result?.user.picture}
-            alt="user avatar"
-            width={140}
-            height={140}
-            className="rounded-full object-cover"
-          />
+          {result?.user.picture && (
+            <Image
+              src={result.user.picture}
+              alt="user avatar"
+              width={140}
+              height={140}
+              className="rounded-full object-cover"
+            />
+          )}
 
           <div className="mt-3">
             <h2 className="h2-bold text-dark100_light900">
@@ -96,14 +98,14 @@ const Profile = async ({ params, searchParams }: URLProps) => {
           </TabsList>
           <TabsContent value="top-posts">
             <TopUserPosts
-              userId={result.user._id}
+              userId={result.user._id.toString()}
               searchParams={searchParams}
               id={id}
             />
           </TabsContent>
           <TabsContent value="answers">
             <TopUserAnswers
-              userId={result.user._id}
+              userId={result.user._id.toString()}
               searchParams={searchParams}
               id={id}
             />
