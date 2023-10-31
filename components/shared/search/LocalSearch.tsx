@@ -1,8 +1,9 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
+import { formUrlQuery, removeUrlQuery } from "@/lib/utils";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 interface LocalSearchProps {
@@ -20,10 +21,36 @@ const LocalSearch: React.FC<LocalSearchProps> = ({
   otherClasses,
   placeholder,
 }) => {
-  const [search, setSearch] = useState("");
+  const searchParams = useSearchParams();
+  const query = searchParams.get("q");
   const router = useRouter();
+  const pathname = usePathname();
+  const [search, setSearch] = useState(query || "");
 
   // to-do: use effect debounce and pass formUrlQuery function imported from utils
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (search) {
+        const newUrl = formUrlQuery({
+          params: searchParams.toString(), // all existing queries
+          key: "q", // we want to focus on the query (q in our case)
+          value: search, // text user types in the input
+        });
+
+        router.push(newUrl, { scroll: false });
+      } else if (pathname === route) {
+        const newUrl = removeUrlQuery({
+          params: searchParams.toString(),
+          keysToRemove: ["q"],
+        });
+
+        router.push(newUrl, { scroll: false });
+      }
+
+      return () => clearTimeout(delayDebounceFn);
+    }, 300);
+  }, [search, router, searchParams, pathname, route]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
