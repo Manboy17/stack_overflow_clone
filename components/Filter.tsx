@@ -15,8 +15,8 @@ interface FilterProps {
     name: string;
     value: string;
   }[];
-  otherClasses: string;
-  containerClasses: string;
+  otherClasses?: string;
+  containerClasses?: string;
 }
 
 const Filter: React.FC<FilterProps> = ({

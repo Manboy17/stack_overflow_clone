@@ -1,61 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import Tag from "./Tag";
+import Tag from "../Tag";
+import { getTopQuestions } from "@/lib/actions/question.action";
+import { getTopTags } from "@/lib/actions/tag.action";
 
-const topQuestions = [
-  {
-    _id: "1",
-    title:
-      "Best practices for data fetching in a Next.js application with Server-Side Rendering (SSR)?",
-  },
-  {
-    _id: "2",
-    title: "Can I get the course for free?",
-  },
-  {
-    _id: "3",
-    title: "Redux Toolkit Not Updating State as Expected",
-  },
-  {
-    _id: "4",
-    title: "How do I use express as a custom server in NextJS?",
-  },
-  {
-    _id: "5",
-    title: "Async/Await Function Not Handling Errors Properly",
-  },
-];
+const RightSidebar = async () => {
+  const questions = await getTopQuestions();
+  const tags = await getTopTags();
 
-const popularTags = [
-  {
-    _id: "1",
-    name: "NEXT.JS",
-    totalQuestions: 3,
-  },
-  {
-    _id: "2",
-    name: "JAVASCRIPT",
-    totalQuestions: 5,
-  },
-  {
-    _id: "3",
-    name: "NODE.JS",
-    totalQuestions: 1,
-  },
-  {
-    _id: "4",
-    name: "PYTHON",
-    totalQuestions: 9,
-  },
-  {
-    _id: "5",
-    name: "TAILWIND.CSS",
-    totalQuestions: 5,
-  },
-];
-
-const RightSidebar = () => {
   return (
     <div
       className="
@@ -83,9 +36,9 @@ const RightSidebar = () => {
         "
       >
         <h1 className="h3-bold text-dark200_light900">Hot Network</h1>
-        {topQuestions.map((item) => (
+        {questions.map((item) => (
           <Link
-            href={`/questions/${item._id}`}
+            href={`/question/${item._id}`}
             key={item._id}
             className="flex w-full items-center justify-between gap-7"
           >
@@ -103,12 +56,12 @@ const RightSidebar = () => {
 
       <div className="mt-[60px] flex flex-col gap-6">
         <h1 className="h3-bold text-dark200_light900 mb-3">Popular Tags</h1>
-        {popularTags.map((item) => (
+        {tags.map((item) => (
           <Tag
             key={item._id}
             _id={item._id}
             name={item.name}
-            totalQuestions={item.totalQuestions}
+            totalQuestions={item.numberOfQuestions}
             showTotalQuestions
           />
         ))}
