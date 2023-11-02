@@ -38,7 +38,7 @@ const LocalSearch: React.FC<LocalSearchProps> = ({
           value: search, // text user types in the input
         });
 
-        router.push(newUrl, { scroll: false });
+        router.replace(newUrl, { scroll: false });
       } else if (pathname === route) {
         const newUrl = removeUrlQuery({
           params: searchParams.toString(),
