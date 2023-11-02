@@ -86,7 +86,7 @@ export function getJoinedDateFormatted(date: Date | string): string {
 interface FormUrlQueryProps {
   params: string;
   key: string;
-  value: string;
+  value: string | null;
 }
 
 export function formUrlQuery({ params, key, value }: FormUrlQueryProps) {
