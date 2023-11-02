@@ -8,6 +8,7 @@ export interface GetQuestionsParams {
   searchQuery?: string;
   filter?: string;
   searchQuery?: string;
+  filter?: string;
 }
 
 export interface CreateQuestionParams {

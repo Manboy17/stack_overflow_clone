@@ -12,7 +12,7 @@ interface NotFoundProps {
 
 const NotFound: React.FC<NotFoundProps> = ({ title, href, btnText, desc }) => {
   return (
-    <div className="mt-[112px] flex flex-col items-center justify-center">
+    <div className="mt-[112px] flex w-full flex-col items-center justify-center">
       <Image
         src="/assets/images/light-illustration.png"
         alt="not found light"

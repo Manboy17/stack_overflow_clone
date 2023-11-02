@@ -3,11 +3,13 @@ import User from "@/components/shared/User";
 import LocalSearch from "@/components/shared/search/LocalSearch";
 import { UserFilters } from "@/constants/filters";
 import { getAllUsers } from "@/lib/actions/user.action";
-import { Link } from "lucide-react";
+import { SearchParamsProps } from "@/types";
 import React from "react";
 
-const Community = async () => {
-  const result = await getAllUsers({});
+const Community = async ({ searchParams }: SearchParamsProps) => {
+  const result = await getAllUsers({
+    searchQuery: searchParams.q,
+  });
 
   return (
     <>
@@ -34,9 +36,6 @@ const Community = async () => {
           ) : (
             <div className="paragraph-regular text-dark200_light800 mx-auto max-w-4xl text-center">
               <p>No users yet</p>
-              <Link href="/sign-up" className="mt-2 font-bold text-accent-blue">
-                Join to be the first!
-              </Link>
             </div>
           )}
         </div>

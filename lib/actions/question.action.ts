@@ -22,7 +22,7 @@ export async function getQuestions(params: GetQuestionsParams) {
   try {
     connectToDatabase();
 
-    const { searchQuery } = params;
+    const { searchQuery, filter } = params;
 
     const query: FilterQuery<typeof Question> = {};
 
@@ -33,13 +33,29 @@ export async function getQuestions(params: GetQuestionsParams) {
       ];
     }
 
+    let sortOptions = {};
+
+    switch (filter) {
+      case "newest":
+        sortOptions = { createdAt: -1 };
+        break;
+      case "frequent":
+        sortOptions = { views: -1 };
+        break;
+      case "unanswered":
+        query.answers = { $size: 0 };
+        break;
+      default:
+        break;
+    }
+
     const questions = await Question.find(query)
       .populate({
         path: "tags",
         model: Tag,
       })
       .populate({ path: "author", model: User })
-      .sort({ createdAt: -1 });
+      .sort(sortOptions);
 
     return { questions };
   } catch (error) {
@@ -179,18 +195,21 @@ export async function deleteQuestion(params: DeleteQuestionParams) {
 
     const { itemId, path } = params;
 
-    const question = await Question.findByIdAndDelete(itemId);
+    const tagsToDelete = await Tag.find({ questions: itemId });
 
-    if (!question) {
-      throw new Error("Question not found");
-    }
-
-    await Answer.deleteMany({ question: question._id });
-    await Interaction.deleteMany({ question: question._id });
+    await Question.deleteOne({ _id: itemId });
+    await Answer.deleteMany({ question: itemId });
+    await Interaction.deleteMany({ question: itemId });
     await Tag.updateMany(
-      { question: question._id },
-      { $pull: { question: question._id } }
+      { questions: itemId },
+      { $pull: { questions: itemId } }
     );
+
+    for (const tag of tagsToDelete) {
+      if (tag.questions.length === 1) {
+        await Tag.deleteOne({ _id: tag._id });
+      }
+    }
 
     revalidatePath(path);
   } catch (error) {

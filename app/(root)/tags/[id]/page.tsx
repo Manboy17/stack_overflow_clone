@@ -18,7 +18,7 @@ const TagQuestions = async ({ params, searchParams }: URLProps) => {
 
       <div className="mt-11">
         <LocalSearch
-          route="/"
+          route={`/tags/${params.id}`}
           iconPosition="left"
           iconUrl="/assets/icons/search.svg"
           otherClasses="flex-1"
@@ -43,7 +43,7 @@ const TagQuestions = async ({ params, searchParams }: URLProps) => {
           ))
         ) : (
           <NotFound
-            title="There’s tag question to show"
+            title="There’s no tag question to show"
             href="/"
             btnText="Ask a Question"
             desc="Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion. our query could be the next big thing others learn from. Get involved! 💡"
