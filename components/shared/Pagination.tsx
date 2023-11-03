@@ -2,7 +2,8 @@
 
 import React from "react";
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { formUrlQuery } from "@/lib/utils";
 
 interface Props {
   pageNumber: number;
@@ -11,10 +12,16 @@ interface Props {
 
 const Pagination = ({ pageNumber, isNext }: Props) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const handleNavigation = (dr: string) => {
-    const newPageNumber = dr === "prev" ? pageNumber - 1 : pageNumber + 1;
+    const isNextPage = dr === "prev" ? pageNumber - 1 : pageNumber + 1;
+    const newUrl = formUrlQuery({
+      params: searchParams.toString(),
+      key: "page",
+      value: isNextPage.toString(),
+    });
 
-    router.push(`/page=${newPageNumber}`);
+    router.replace(newUrl);
   };
 
   if (!isNext && pageNumber === 1) return null;
