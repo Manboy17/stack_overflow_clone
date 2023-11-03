@@ -171,7 +171,7 @@ export async function downvoteQuestion(params: VoteQuestionParams) {
         $push: { downvotes: userId },
       };
     } else {
-      updateQuery = { $addToSet: { downvoes: userId } };
+      updateQuery = { $addToSet: { downvotes: userId } };
     }
 
     const answer = await Question.findByIdAndUpdate(questionId, updateQuery, {

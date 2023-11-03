@@ -16,6 +16,7 @@ import React from "react";
 const QuestionDetails = async ({ params, searchParams }: any) => {
   const question = await getQuestionById({ questionId: params.id });
   const { userId: id } = auth();
+  const filter = searchParams.filter;
 
   let mongoUser;
 
@@ -103,6 +104,7 @@ const QuestionDetails = async ({ params, searchParams }: any) => {
         questionId={question._id}
         userId={mongoUser._id}
         totalAnswers={question.answers.length}
+        filter={filter}
       />
 
       <Answer

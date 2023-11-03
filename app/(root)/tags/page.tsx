@@ -8,7 +8,10 @@ import { SearchParamsProps } from "@/types";
 import React from "react";
 
 const Tags = async ({ searchParams }: SearchParamsProps) => {
-  const allTags = await getAllTags({ searchQuery: searchParams.q });
+  const allTags = await getAllTags({
+    searchQuery: searchParams.q,
+    filter: searchParams.filter,
+  });
 
   return (
     <>

@@ -73,6 +73,7 @@ export interface CreateAnswerParams {
 
 export interface GetAllAnswersParams {
   questionId: string;
+  filter?: string | undefined;
 }
 
 export interface VoteQuestionParams {

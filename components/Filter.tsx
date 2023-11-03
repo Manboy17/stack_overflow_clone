@@ -68,11 +68,11 @@ const Filter: React.FC<FilterProps> = ({
           <SelectGroup>
             {filters.map((filter) => (
               <SelectItem
-                key={filter.name}
-                value={filter.name}
+                key={filter.value}
+                value={filter.value}
                 className="cursor-pointer focus:bg-light-800 dark:focus:bg-dark-400"
               >
-                {filter.value}
+                {filter.name}
               </SelectItem>
             ))}
           </SelectGroup>
