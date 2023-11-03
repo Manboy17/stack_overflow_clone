@@ -37,7 +37,26 @@ export async function getAllAnswers(params: GetAllAnswersParams) {
   try {
     await connectToDatabase();
 
-    const { questionId } = params;
+    const { questionId, filter } = params;
+
+    let sortOptions = {};
+
+    switch (filter) {
+      case "highestupvotes":
+        sortOptions = { upvotes: -1 };
+        break;
+      case "lowestupvotes":
+        sortOptions = { upvotes: 1 };
+        break;
+      case "recent":
+        sortOptions = { createdAt: -1 };
+        break;
+      case "old":
+        sortOptions = { createdAt: 1 };
+        break;
+      default:
+        break;
+    }
 
     const answers = await Answer.find({ question: questionId })
       .populate({
@@ -45,7 +64,7 @@ export async function getAllAnswers(params: GetAllAnswersParams) {
         model: User,
         select: "_id id name picture",
       })
-      .sort({ createdAt: -1 });
+      .sort(sortOptions);
 
     return { answers };
   } catch (error) {
@@ -104,7 +123,7 @@ export async function downvoteAnswer(params: VoteAnswerParams) {
         $push: { downvotes: userId },
       };
     } else {
-      updateQuery = { $addToSet: { downvoes: userId } };
+      updateQuery = { $addToSet: { downvotes: userId } };
     }
 
     const answer = await Answer.findByIdAndUpdate(answerId, updateQuery, {

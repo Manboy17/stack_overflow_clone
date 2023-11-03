@@ -1,7 +1,7 @@
 import { getAllAnswers } from "@/lib/actions/answer.action";
 import React from "react";
 import Filter from "../Filter";
-import { QuestionFilters } from "@/constants/filters";
+import { AnswerFilters } from "@/constants/filters";
 import Link from "next/link";
 import Image from "next/image";
 import { getTimestamp } from "@/lib/utils";
@@ -12,21 +12,23 @@ interface Props {
   questionId: string;
   userId: string;
   totalAnswers: number;
+  filter: string;
 }
 
 const AllAnswers: React.FC<Props> = async ({
   questionId,
   userId,
   totalAnswers,
+  filter,
 }) => {
-  const result = await getAllAnswers({ questionId });
+  const result = await getAllAnswers({ questionId, filter });
 
   return (
     <div className="mt-11">
       <div className="flex items-center justify-between">
         <h3 className="primary-text-gradient">{totalAnswers} Answers</h3>
 
-        <Filter filters={QuestionFilters} />
+        <Filter filters={AnswerFilters} />
       </div>
 
       <div>
