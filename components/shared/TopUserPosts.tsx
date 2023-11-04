@@ -44,7 +44,7 @@ const TopUserPosts = async ({ userId, id, searchParams }: Props) => {
 
       <div className="mt-10">
         <Pagination
-          isNext={result.isNextQuestions}
+          isNext={result.isNext}
           pageNumber={searchParams?.page ? +searchParams.page : 1}
         />
       </div>

@@ -22,13 +22,15 @@ export async function getQuestions(params: GetQuestionsParams) {
   try {
     connectToDatabase();
 
-    const { searchQuery, filter, page = 1, pageSize = 3 } = params;
+    const { searchQuery, filter, page = 1, pageSize = 20 } = params;
 
     const skipAmount = (page - 1) * pageSize;
 
     const query: FilterQuery<typeof Question> = {};
 
     const totalQuestions = await Question.countDocuments(query);
+
+    console.log(totalQuestions);
 
     if (searchQuery) {
       query.$or = [
@@ -63,7 +65,7 @@ export async function getQuestions(params: GetQuestionsParams) {
       .skip(skipAmount)
       .limit(pageSize);
 
-    const isNext = totalQuestions > skipAmount + questions.length;
+    const isNext = totalQuestions > skipAmount + questions.length; // questions.length => questions per page
 
     return { questions, isNext };
   } catch (error) {
@@ -207,6 +209,7 @@ export async function deleteQuestion(params: DeleteQuestionParams) {
 
     await Question.deleteOne({ _id: itemId });
     await Answer.deleteMany({ question: itemId });
+    await User.updateOne({ saved: itemId }, { $pull: { saved: itemId } });
     await Interaction.deleteMany({ question: itemId });
     await Tag.updateMany(
       { questions: itemId },

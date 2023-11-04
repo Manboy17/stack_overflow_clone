@@ -11,7 +11,10 @@ interface Props extends SearchParamsProps {
 }
 
 const TopUserAnswers = async ({ userId, id, searchParams }: Props) => {
-  const result = await getUserAnswers({ userId });
+  const result = await getUserAnswers({
+    userId,
+    page: searchParams?.page ? +searchParams.page : 1,
+  });
   return (
     <div className="mt-10 flex w-full flex-col gap-6">
       {result.answers.length > 0 ? (
@@ -37,7 +40,7 @@ const TopUserAnswers = async ({ userId, id, searchParams }: Props) => {
 
       <div className="mt-10">
         <Pagination
-          isNext={result.isNextAnswers}
+          isNext={result.isNext}
           pageNumber={searchParams?.page ? +searchParams.page : 1}
         />
       </div>
