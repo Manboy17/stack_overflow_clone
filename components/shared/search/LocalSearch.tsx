@@ -35,7 +35,7 @@ const LocalSearch: React.FC<LocalSearchProps> = ({
         const newUrl = formUrlQuery({
           params: searchParams.toString(), // all existing queries
           key: "q", // we want to focus on the query (q in our case)
-          value: search, // text user types in the input
+          value: search.toLowerCase(), // text user types in the input
         });
 
         router.replace(newUrl, { scroll: false });
@@ -43,7 +43,7 @@ const LocalSearch: React.FC<LocalSearchProps> = ({
         if (query) {
           const newUrl = removeUrlQuery({
             params: searchParams.toString(),
-            keysToRemove: ["global", "type"],
+            keysToRemove: ["q"],
           });
 
           router.push(newUrl, { scroll: false });
