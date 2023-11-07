@@ -39,18 +39,20 @@ const LocalSearch: React.FC<LocalSearchProps> = ({
         });
 
         router.replace(newUrl, { scroll: false });
-      } else if (pathname === route) {
-        const newUrl = removeUrlQuery({
-          params: searchParams.toString(),
-          keysToRemove: ["q"],
-        });
+      } else {
+        if (query) {
+          const newUrl = removeUrlQuery({
+            params: searchParams.toString(),
+            keysToRemove: ["global", "type"],
+          });
 
-        router.push(newUrl, { scroll: false });
+          router.push(newUrl, { scroll: false });
+        }
       }
 
       return () => clearTimeout(delayDebounceFn);
     }, 300);
-  }, [search, router, searchParams, pathname, route]);
+  }, [search, router, searchParams, pathname, query]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);

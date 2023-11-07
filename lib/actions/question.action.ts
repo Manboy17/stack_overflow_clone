@@ -30,8 +30,6 @@ export async function getQuestions(params: GetQuestionsParams) {
 
     const totalQuestions = await Question.countDocuments(query);
 
-    console.log(totalQuestions);
-
     if (searchQuery) {
       query.$or = [
         { title: { $regex: new RegExp(searchQuery, "i") } },
