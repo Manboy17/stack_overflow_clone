@@ -4,6 +4,7 @@ import Question from "@/database/question.model";
 import { connectToDatabase } from "../mongoose";
 import { ViewQuestionParams } from "./shared.types";
 import Interaction from "@/database/interaction.model";
+import User from "@/database/user.model";
 
 export async function viewQuestion(params: ViewQuestionParams) {
   try {
@@ -11,7 +12,9 @@ export async function viewQuestion(params: ViewQuestionParams) {
 
     const { questionId, userId } = params;
 
-    await Question.findByIdAndUpdate(questionId, { $inc: { views: 1 } });
+    const updatedQuestion = await Question.findByIdAndUpdate(questionId, {
+      $inc: { views: 1 },
+    });
 
     if (userId) {
       const existingInteraction = await Interaction.findOne({
@@ -28,6 +31,13 @@ export async function viewQuestion(params: ViewQuestionParams) {
         action: "view",
         question: questionId,
       });
+
+      // increase user's reputation every 100 views
+      if (updatedQuestion.views % 100 === 0) {
+        await User.findByIdAndUpdate(userId, {
+          $inc: { reputation: 5 },
+        });
+      }
     }
   } catch (error) {
     console.log(error);

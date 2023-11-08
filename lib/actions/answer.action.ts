@@ -10,6 +10,7 @@ import { connectToDatabase } from "../mongoose";
 import { revalidatePath } from "next/cache";
 import Question from "@/database/question.model";
 import User from "@/database/user.model";
+import Interaction from "@/database/interaction.model";
 
 export async function createAnswer(params: CreateAnswerParams) {
   try {
@@ -22,9 +23,19 @@ export async function createAnswer(params: CreateAnswerParams) {
       question,
     });
 
-    await Question.findByIdAndUpdate(question, {
+    const questionObject = await Question.findByIdAndUpdate(question, {
       $push: { answers: answer._id },
     });
+
+    await Interaction.create({
+      user: author,
+      action: "answer",
+      question,
+      answer: answer._id,
+      tags: questionObject.tags,
+    });
+
+    await User.findByIdAndUpdate(author, { $inc: { reputation: 10 } });
 
     revalidatePath(path);
   } catch (error) {
@@ -100,6 +111,16 @@ export async function upvoteAnswer(params: VoteAnswerParams) {
       throw new Error("Answer not found");
     }
 
+    // we upvote/reupvote the answer
+    await User.findByIdAndUpdate(userId, {
+      $inc: { reputation: isUpvoted ? -2 : 2 },
+    });
+
+    // we receive upvote/downvote from another users
+    await User.findByIdAndUpdate(answer.author, {
+      $inc: { reputation: isUpvoted ? -10 : 10 },
+    });
+
     revalidatePath(path);
   } catch (error) {
     console.log(error);
@@ -133,6 +154,16 @@ export async function downvoteAnswer(params: VoteAnswerParams) {
     if (!answer) {
       throw new Error("Answer not found");
     }
+
+    // we downvote/redownvote the answer
+    await User.findByIdAndUpdate(userId, {
+      $inc: { reputation: isDownvoted ? 2 : -2 },
+    });
+
+    // we receive upvote/downvote from another users
+    await User.findByIdAndUpdate(userId, {
+      $inc: { reputation: isDownvoted ? 10 : -10 },
+    });
 
     revalidatePath(path);
   } catch (error) {
