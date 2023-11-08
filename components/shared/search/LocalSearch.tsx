@@ -35,22 +35,24 @@ const LocalSearch: React.FC<LocalSearchProps> = ({
         const newUrl = formUrlQuery({
           params: searchParams.toString(), // all existing queries
           key: "q", // we want to focus on the query (q in our case)
-          value: search, // text user types in the input
+          value: search.toLowerCase(), // text user types in the input
         });
 
         router.replace(newUrl, { scroll: false });
-      } else if (pathname === route) {
-        const newUrl = removeUrlQuery({
-          params: searchParams.toString(),
-          keysToRemove: ["q"],
-        });
+      } else {
+        if (query) {
+          const newUrl = removeUrlQuery({
+            params: searchParams.toString(),
+            keysToRemove: ["q"],
+          });
 
-        router.push(newUrl, { scroll: false });
+          router.push(newUrl, { scroll: false });
+        }
       }
 
       return () => clearTimeout(delayDebounceFn);
     }, 300);
-  }, [search, router, searchParams, pathname, route]);
+  }, [search, router, searchParams, pathname, query]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);

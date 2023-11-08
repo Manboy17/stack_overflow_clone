@@ -150,3 +150,8 @@ export interface EditQuestionParams {
   explanation: string;
   path: string;
 }
+
+export interface GetGlobalSearchedResult {
+  searchQuery?: string | null;
+  type?: string | null;
+}

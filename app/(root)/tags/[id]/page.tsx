@@ -1,4 +1,5 @@
 import NotFound from "@/components/shared/NotFound";
+import Pagination from "@/components/shared/Pagination";
 import QuestionCard from "@/components/shared/QuestionCard";
 import LocalSearch from "@/components/shared/search/LocalSearch";
 import { getQuestionsByTagId } from "@/lib/actions/tag.action";
@@ -8,8 +9,8 @@ import React from "react";
 const TagQuestions = async ({ params, searchParams }: URLProps) => {
   const result = await getQuestionsByTagId({
     tagId: params.id,
-    page: 1,
     searchQuery: searchParams.q,
+    page: searchParams?.page ? +searchParams.page : 1,
   });
 
   return (
@@ -49,6 +50,13 @@ const TagQuestions = async ({ params, searchParams }: URLProps) => {
             desc="Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion. our query could be the next big thing others learn from. Get involved! 💡"
           />
         )}
+      </div>
+
+      <div className="mt-10">
+        <Pagination
+          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          isNext={result.isNext}
+        />
       </div>
     </div>
   );
