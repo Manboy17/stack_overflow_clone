@@ -29,7 +29,7 @@ interface Props {
   totalAnswers: number;
   reputation: number;
   badges: BadgeCounts;
-}
+}  
 
 const Stats = ({ totalQuestions, totalAnswers, reputation, badges }: Props) => {
   return (
