@@ -16,7 +16,6 @@ import { z } from "zod";
 import { Editor } from "@tinymce/tinymce-react";
 import { useTheme } from "@/context/ThemeProvider";
 import { Button } from "../ui/button";
-import Image from "next/image";
 import { createAnswer } from "@/lib/actions/answer.action";
 import { usePathname } from "next/navigation";
 
@@ -26,7 +25,7 @@ interface AnswerProps {
   authorId: string;
 }
 
-const Answer: React.FC<AnswerProps> = ({ question, questionId, authorId }) => {
+const Answer: React.FC<AnswerProps> = ({ questionId, authorId }) => {
   const pathname = usePathname();
   const [isSubmitting, setISubmitting] = useState(false);
   const { mode } = useTheme();
@@ -69,17 +68,6 @@ const Answer: React.FC<AnswerProps> = ({ question, questionId, authorId }) => {
         <h4 className="paragraph-semibold text-dark400_light800">
           Write your answer here
         </h4>
-
-        <Button className="btn light-border-2 gap-1.5 rounded-md px-4 py-2.5 text-primary-500 shadow-none">
-          <Image
-            src="/assets/icons/stars.svg"
-            width={12}
-            height={12}
-            alt="stars"
-            className="object-contain"
-          />
-          Generate an AI answer
-        </Button>
       </div>
       <Form {...form}>
         <form

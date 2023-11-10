@@ -19,6 +19,7 @@ import { ProfileSchema } from "@/lib/validations";
 import { usePathname, useRouter } from "next/navigation";
 import { updateUser } from "@/lib/actions/user.action";
 import { IUser } from "@/database/user.model";
+import { useToast } from "../ui/use-toast";
 
 interface Props {
   id: string;
@@ -30,6 +31,7 @@ const Profile = ({ id, user }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof ProfileSchema>>({
     resolver: zodResolver(ProfileSchema),
     defaultValues: {
@@ -55,6 +57,11 @@ const Profile = ({ id, user }: Props) => {
           bio: values.bio,
         },
         path: pathname,
+      });
+
+      toast({
+        title: "Profile updated successfully",
+        variant: "default",
       });
       router.push(`/profile/${id}`);
     } catch (error) {

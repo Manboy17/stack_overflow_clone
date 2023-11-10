@@ -11,6 +11,7 @@ import { formatAndDivideNumber } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
+import { useToast } from "../ui/use-toast";
 
 interface Props {
   type: string;
@@ -35,6 +36,7 @@ const Votes: React.FC<Props> = ({
 }) => {
   const pathname = usePathname();
   const router = useRouter();
+  const { toast } = useToast();
 
   const handleSave = async () => {
     await toggleSaveQuestion({
@@ -46,7 +48,9 @@ const Votes: React.FC<Props> = ({
 
   const handleVote = async (action: string) => {
     if (!userId) {
-      return;
+      return toast({
+        title: "You need to be logged in to vote",
+      });
     }
     if (action === "upvote") {
       if (type === "Question") {
@@ -66,6 +70,11 @@ const Votes: React.FC<Props> = ({
           path: pathname,
         });
       }
+
+      return toast({
+        title: `Upvote ${isUpvoted ? "removed" : "added"}`,
+        variant: isUpvoted ? "destructive" : "default",
+      });
     }
 
     if (action === "downvote") {
@@ -87,6 +96,11 @@ const Votes: React.FC<Props> = ({
         });
       }
     }
+
+    return toast({
+      title: `Upvote ${isDownvoted ? "removed" : "added"}`,
+      variant: isDownvoted ? "destructive" : "default",
+    });
   };
 
   useEffect(() => {
