@@ -155,3 +155,10 @@ export interface GetGlobalSearchedResult {
   searchQuery?: string | null;
   type?: string | null;
 }
+
+export interface GetRecommendedQuestionsParams {
+  userId: string | null;
+  page?: number;
+  pageSize?: number;
+  searchQuery?: string;
+}

@@ -10,7 +10,7 @@ const HomeFilters = () => {
   const searchParams = useSearchParams();
   const filter = searchParams.get("filter");
   const router = useRouter();
-  const [clickedFilter, setClickedFilter] = useState(filter || "recommended");
+  const [clickedFilter, setClickedFilter] = useState(filter || "");
 
   const handleTypeClick = (value: string) => {
     if (clickedFilter === value) {
