@@ -22,6 +22,7 @@ import Image from "next/image";
 import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "@/context/ThemeProvider";
+import { useToast } from "../ui/use-toast";
 
 interface Props {
   type?: string;
@@ -39,6 +40,7 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
   const [isFormatting, setIsFormatting] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof QuestionsSchema>>({
     resolver: zodResolver(QuestionsSchema),
@@ -71,6 +73,11 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
           path: pathname,
         });
         // navigate to home page after calling an api
+        toast({
+          title: "Question Posted",
+          description: "Your question has been posted successfully",
+          variant: "default",
+        });
         router.push("/");
       }
     } catch (error) {

@@ -47,11 +47,11 @@ const QuestionDetails = async ({ params, searchParams }: any) => {
             <Votes
               type="Question"
               itemId={JSON.stringify(question.id)}
-              userId={JSON.stringify(mongoUser._id)}
+              userId={JSON.stringify(mongoUser?._id)}
               upvotes={question.upvotes.length}
               downvotes={question.downvotes.length}
-              isUpvoted={question.upvotes.includes(mongoUser._id)}
-              isDownvoted={question.downvotes.includes(mongoUser._id)}
+              isUpvoted={question.upvotes.includes(mongoUser?._id)}
+              isDownvoted={question.downvotes.includes(mongoUser?._id)}
               isSaved={mongoUser?.saved.includes(question._id)}
             />
           </div>
@@ -102,14 +102,14 @@ const QuestionDetails = async ({ params, searchParams }: any) => {
 
       <AllAnswers
         questionId={question._id}
-        userId={mongoUser._id}
+        userId={mongoUser?._id}
         totalAnswers={question.answers.length}
         filter={filter}
       />
 
       <Answer
         question={question.explanation}
-        authorId={JSON.stringify(mongoUser._id)}
+        authorId={JSON.stringify(mongoUser?._id)}
         questionId={JSON.stringify(question._id)}
       />
     </>
