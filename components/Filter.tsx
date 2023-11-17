@@ -64,7 +64,7 @@ const Filter: React.FC<FilterProps> = ({
             placeholder="Select a Filter"
           />
         </SelectTrigger>
-        <SelectContent className="text-dark500_light700 small-regular border-none bg-light-900 dark:bg-dark-300">
+        <SelectContent className="text-dark500_light700 small-regular max-h-[300px] max-w-[250px] overflow-y-auto border-none bg-light-900 dark:bg-dark-300">
           <SelectGroup>
             {filters.map((filter) => (
               <SelectItem
